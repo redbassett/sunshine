@@ -86,9 +86,7 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        // Now that we have some dummy forecast data, create an ArrayAdapter.
-        // The ArrayAdapter will take data from a source (like our dummy forecast) and
+        // The ArrayAdapter will take data from a source and
         // use it to populate the ListView it's attached to.
         mForecastAdapter =
                 new ArrayAdapter<String>(
@@ -107,9 +105,9 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String forecast = mForecastAdapter.getItem(position);
-                Intent detailIntent = new Intent(getActivity(), DetailActivity.class)
+                Intent intent = new Intent(getActivity(), DetailActivity.class)
                         .putExtra(Intent.EXTRA_TEXT, forecast);
-                startActivity(detailIntent);
+                startActivity(intent);
             }
         });
 
@@ -117,10 +115,10 @@ public class ForecastFragment extends Fragment {
     }
 
     private void updateWeather() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-
         FetchWeatherTask weatherTask = new FetchWeatherTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
         weatherTask.execute(location);
     }
 
@@ -148,6 +146,7 @@ public class ForecastFragment extends Fragment {
          * Prepare the weather high/lows for presentation.
          */
         private String formatHighLows(double high, double low, String unitType) {
+
             if (unitType.equals(getString(R.string.pref_units_imperial))) {
                 high = (high * 1.8) + 32;
                 low = (low * 1.8) + 32;
@@ -202,8 +201,18 @@ public class ForecastFragment extends Fragment {
             dayTime = new Time();
 
             String[] resultStrs = new String[numDays];
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String unitType = sharedPrefs.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_metric));
+
+            // Data is fetched in Celsius by default.
+            // If user prefers to see in Fahrenheit, convert the values here.
+            // We do this rather than fetching in Fahrenheit so that the user can
+            // change this option without us having to re-fetch the data once
+            // we start storing the values in a database.
+            SharedPreferences sharedPrefs =
+                    PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPrefs.getString(
+                    getString(R.string.pref_units_key),
+                    getString(R.string.pref_units_metric));
+
             for(int i = 0; i < weatherArray.length(); i++) {
                 // For now, using the format "Day, description, hi/low"
                 String day;
