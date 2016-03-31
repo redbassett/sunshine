@@ -55,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
 
             mLocation = curLocation;
         }
+        super.onResume();
     }
 
     @Override
