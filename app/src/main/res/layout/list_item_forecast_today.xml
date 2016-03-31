@@ -17,21 +17,18 @@
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date"
             android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/list_item_high_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="200º"
             android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/list_item_low_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-200º"
             android:layout_gravity="center"/>
 
     </LinearLayout>
@@ -46,14 +43,12 @@
             android:id="@+id/list_item_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
             android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/list_item_forecast_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asteroids"
             android:layout_gravity="center"/>
 
     </LinearLayout>
