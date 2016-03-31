@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-        mLocation = Utility.getPreferredLocation();
+        mLocation = Utility.getPreferredLocation(this);
     }
 
     @Override
