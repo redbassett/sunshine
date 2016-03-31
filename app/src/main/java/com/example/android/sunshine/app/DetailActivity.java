@@ -171,8 +171,10 @@ public class DetailActivity extends ActionBarActivity  {
             String dateString = Utility.formatDate(data.getLong(COL_WEATHER_DATE));
             String weatherDescription = data.getString(COL_WEATHER_DESC);
             boolean isMetric = Utility.isMetric(getActivity());
-            String high  = Utility.formatTemperature(data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
-            String low = Utility.formatTemperature(data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+            String high  = Utility.formatTemperature(getActivity(),
+                    data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
+            String low = Utility.formatTemperature(getActivity(),
+                    data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
 
             mForecast = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);
 
