@@ -1,13 +1,32 @@
+/*
+ * Copyright (C) 2014 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.android.sunshine.app.service;
 
 import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.format.Time;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.example.android.sunshine.app.BuildConfig;
 import com.example.android.sunshine.app.data.WeatherContract;
@@ -24,15 +43,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Vector;
 
-/**
- * Created by harry on 4/1/16.
- */
-public class SunshineService extends IntentService {
-    private final String LOG_TAG = SunshineService.class.getSimpleName();
-    public static final String LOCATION_QUERY_EXTRA = "lqe";
 
-    public SunshineService(String name) {
-        super(name);
+public class SunshineService extends IntentService {
+    private ArrayAdapter<String> mForecastAdapter;
+    public static final String LOCATION_QUERY_EXTRA = "lqe";
+    private final String LOG_TAG = SunshineService.class.getSimpleName();
+    public SunshineService() {
+        super("Sunshine");
     }
 
     @Override
@@ -64,7 +81,7 @@ public class SunshineService extends IntentService {
             final String APPID_PARAM = "APPID";
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, params[0])
+                    .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
@@ -83,7 +100,7 @@ public class SunshineService extends IntentService {
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
                 // Nothing to do.
-                return null;
+                return;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
@@ -97,7 +114,7 @@ public class SunshineService extends IntentService {
 
             if (buffer.length() == 0) {
                 // Stream was empty.  No point in parsing.
-                return null;
+                return;
             }
             forecastJsonStr = buffer.toString();
             getWeatherDataFromJson(forecastJsonStr, locationQuery);
@@ -120,7 +137,7 @@ public class SunshineService extends IntentService {
                 }
             }
         }
-        return void;
+        return;
     }
 
     /**
@@ -318,4 +335,16 @@ public class SunshineService extends IntentService {
         // Wait, that worked?  Yes!
         return locationId;
     }
+
+    public static class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent sendIntent = new Intent(context, SunshineService.class);
+            sendIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, intent.getStringExtra(SunshineService.LOCATION_QUERY_EXTRA));
+            context.startService(sendIntent);
+
+        }
+    }
+
 }
