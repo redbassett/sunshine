@@ -41,6 +41,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ListView mListView;
     private int mPosition = ListView.INVALID_POSITION;
+    private boolean mUseTodayLayout;
 
     private static final String SELECTED_KEY = "selected_position";
 
@@ -125,6 +126,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+
         return rootView;
     }
 
@@ -173,7 +176,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mForecastAdapter.swapCursor(cursor);
         if (mPosition != ListView.INVALID_POSITION) {
             mListView.smoothScrollToPosition(mPosition);
@@ -181,7 +184,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
     }
 
@@ -195,5 +198,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
          * DetailFragmentCallback for when an item has been selected.
          */
         public void onItemSelected(Uri dateUri);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 }
