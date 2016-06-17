@@ -105,5 +105,11 @@
     <string name="empty_forecast_list_no_network">No weather information available. The network is not available to fetch weather data.</string>
     <string name="empty_forecast_list_server_down">No weather information available. The server is not returning data.</string>
     <string name="empty_forecast_list_server_invalid">No weather information available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
+    <string name="empty_forecast_list_location_invalid">No weather information available. Check that you have entered a valid weather location.</string>
+
+    <!-- Strings used when displaying the state of the Location in settings -->
+    <string name="pref_location_error_description">Invalid Location (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
+    <string name="pref_location_unknown_description">Validating Location... (<xliff:g id="location_setting">%1$s</xliff:g>)"</string>
+
 
 </resources>
