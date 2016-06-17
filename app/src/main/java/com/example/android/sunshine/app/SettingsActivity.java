@@ -53,14 +53,14 @@ public class SettingsActivity extends PreferenceActivity
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);
         super.onResume();
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
@@ -85,24 +85,40 @@ public class SettingsActivity extends PreferenceActivity
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
+        setPreferenceSummary(preference, value);
+        return true;
+    }
+
+    private void setPreferenceSummary(Preference preference, Object value) {
         String stringValue = value.toString();
+        String key = preference.getKey();
 
         if (preference instanceof ListPreference) {
             // For list preferences, look up the correct display value in
             // the preference's 'entries' list (since they have separate labels/values).
             ListPreference listPreference = (ListPreference) preference;
             int prefIndex = listPreference.findIndexOfValue(stringValue);
-            if (prefIndex >= 0) {
+            if (prefIndex >= 0)
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
+        } else if (key.equals(getString(R.string.pref_location_key))) {
+            @SunshineSyncAdapter.LocationStatus int status = Utility.getLocationStatus(this);
+            switch (status) {
+                case SunshineSyncAdapter.LOCATION_STATUS_OK:
+                    preference.setSummary(stringValue);
+                    break;
+                case SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN:
+                    preference.setSummary(getString(R.string.pref_location_unknown_description, value));
+                    break;
+                case SunshineSyncAdapter.LOCATION_STATUS_INVALID:
+                    preference.setSummary(getString(R.string.pref_location_error_description, value));
+                    break;
+                default:
+                    preference.setSummary(stringValue);
             }
         } else {
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
         }
-
-        SunshineSyncAdapter.syncImmediately(this);
-
-        return true;
     }
 
     @Override
@@ -112,6 +128,9 @@ public class SettingsActivity extends PreferenceActivity
             SunshineSyncAdapter.syncImmediately(this);
         } else if (key.equals(getString(R.string.pref_units_key))) {
             getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI, null);
+        } else if (key.equals(getString(R.string.pref_location_status_key))) {
+            Preference locationPreference = findPreference(getString(R.string.pref_location_status_key));
+            bindPreferenceSummaryToValue(locationPreference);
         }
     }
 
