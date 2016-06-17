@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
@@ -229,6 +230,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             // to, do so now.
             mListView.smoothScrollToPosition(mPosition);
         }
+
+        updateEmptyView();
     }
 
     @Override
@@ -267,6 +270,15 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 }
             }
 
+        }
+    }
+
+    private void updateEmptyView() {
+        if (mForecastAdapter.getCount() == 0) {
+            TextView tv = (TextView) getView().findViewById(R.id.empty_forecast_list_view);
+            if (tv != null) {
+                tv.setText((Utility.isNetworkAvailable(getActivity())) ? R.string.empty_forecast_list : R.string.no_network_connection);
+            }
         }
     }
 }

@@ -99,5 +99,6 @@
 
     <!-- Cannot load information -->
     <string name="empty_forecast_list">No Weather Information Available</string>
+    <string name="no_network_connection">No weather information available. The network is not available to fetch weather data.</string>
 
 </resources>
