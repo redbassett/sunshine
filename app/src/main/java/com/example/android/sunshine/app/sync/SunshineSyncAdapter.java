@@ -29,6 +29,7 @@ import com.example.android.sunshine.app.MainActivity;
 import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.Utility;
 import com.example.android.sunshine.app.data.WeatherContract;
+import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -472,7 +473,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 // Last sync was more than 1 day ago, let's send a notification with the weather.
                 String locationQuery = Utility.getPreferredLocation(context);
 
-                Uri weatherUri = WeatherEntry.buildWeatherLocationWithDate(locationQuery, WeatherContract.getDbDateString(new Date()));
+                Uri weatherUri = WeatherEntry.buildWeatherLocationWithDate(locationQuery, System.currentTimeMillis());
 
                 // we'll query our contentProvider, as always
                 Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
