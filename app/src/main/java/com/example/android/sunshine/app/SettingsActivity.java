@@ -110,7 +110,7 @@ public class SettingsActivity extends PreferenceActivity
         if (key.equals(R.string.pref_location_status_key)) {
             Utility.resetLocationStatus(this);
             SunshineSyncAdapter.syncImmediately(this);
-        } else if (key.equals(R.string.pref_units_key)) {
+        } else if (key.equals(getString(R.string.pref_units_key))) {
             getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI, null);
         }
     }
