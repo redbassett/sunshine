@@ -248,9 +248,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // Using the URI scheme for showing a location found on a map.  This super-handy
         // intent can is detailed in the "Common Intents" page of Android's developer site:
         // http://developer.android.com/guide/components/intents-common.html#Maps
-        if ( null != mForecastAdapter ) {
+        if (null != mForecastAdapter) {
             Cursor c = mForecastAdapter.getCursor();
-            if ( null != c ) {
+            if (null != c) {
                 c.moveToPosition(0);
                 String posLat = c.getString(COL_COORD_LAT);
                 String posLong = c.getString(COL_COORD_LONG);
