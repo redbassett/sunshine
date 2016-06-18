@@ -10,4 +10,14 @@
         <item>@string/pref_units_metric</item>
         <item>@string/pref_units_imperial</item>
     </string-array>
+
+    <string-array name="pref_art_pack_options">
+        <item>@string/pref_art_pack_label_sunshine</item>
+        <item>@string/pref_art_pack_label_cute_dogs</item>
+    </string-array>
+    
+    <string-array name="pref_art_packs_values">
+        <item>@string/pref_art_pack_sunshine</item>
+        <item>@string/pref_art_pack_cute_dogs</item>
+    </string-array>
 </resources>
