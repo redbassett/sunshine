@@ -23,7 +23,7 @@
         android:title="@string/pref_art_pack_label"
         android:key="@string/pref_art_pack_key"
         android:defaultValue="@string/pref_art_pack_sunshine"
-        android:entryValues="@array/pref_art_packs_values"
+        android:entryValues="@array/pref_art_pack_values"
         android:entries="@array/pref_art_pack_options" />
 
     <CheckBoxPreference
