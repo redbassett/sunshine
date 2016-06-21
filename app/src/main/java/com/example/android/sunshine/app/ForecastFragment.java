@@ -156,7 +156,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        View emptyView = rootView.findViewById(R.id.empty_forecast_list);
+        View emptyView = rootView.findViewById(R.id.listview_forecast_empty);
         mListView.setEmptyView(emptyView);
         mListView.setAdapter(mForecastAdapter);
         // We'll call our MainActivity
@@ -293,7 +293,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
      */
     private void updateEmptyView() {
         if ( mForecastAdapter.getCount() == 0 ) {
-            TextView tv = (TextView) getView().findViewById(R.id.empty_forecast_list);
+            TextView tv = (TextView) getView().findViewById(R.id.listview_forecast_empty);
             if ( null != tv ) {
                 // if cursor is empty, why? do we have an invalid location
                 int message = R.string.empty_forecast_list;
