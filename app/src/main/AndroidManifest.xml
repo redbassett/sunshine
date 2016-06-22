@@ -56,6 +56,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.sunshine.app.MainActivity" />
         </activity>
+
+        <!-- Provider -->
         <provider
             android:authorities="@string/content_authority"
             android:name=".data.WeatherProvider"
@@ -113,6 +115,7 @@
             android:exported="false" >
         </service>
 
+        <!-- Google Play Location API key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBbQU-Cqw5th4YmCykWYoOHawXmGcUnFz4"/>
