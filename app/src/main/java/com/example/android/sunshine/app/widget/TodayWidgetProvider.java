@@ -10,9 +10,14 @@ import android.support.annotation.NonNull;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 
 /**
- * Provider for a widget showing today's weather.
+ * Provider for a horizontally expandable widget showing today's weather.
+ *
+ * Delegates widget updating to {@link TodayWidgetIntentService} to ensure that
+ * data retrieval is done on a background thread
  */
 public class TodayWidgetProvider extends AppWidgetProvider {
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         context.startService(new Intent(context, TodayWidgetIntentService.class));
     }
