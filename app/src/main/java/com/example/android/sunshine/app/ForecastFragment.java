@@ -15,12 +15,14 @@
  */
 package com.example.android.sunshine.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -194,6 +196,27 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // Specify an adapter
         mRecyclerView.setAdapter(mForecastAdapter);
 
+        final View parallaxView = rootView.findViewById(R.id.parallax_bar);
+        if (parallaxView != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        int max = parallaxView.getHeight();
+                        if (dy > 0) {
+                            parallaxView.setTranslationY(Math.max(-max,
+                                    parallaxView.getTranslationY() - dy / 2));
+                        } else {
+                            parallaxView.setTranslationY(Math.min(0,
+                                    parallaxView.getTranslationY() - dy / 2));
+                        }
+                    }
+                });
+            }
+        }
+
         // If there's instance state, mine it for useful information.
         // The end-goal here is that the user never knows that turning their device sideways
         // does crazy lifecycle related things.  It should feel like some stuff stretched out,
@@ -314,6 +337,14 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                     return false;
                 }
             });
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mRecyclerView != null) {
+            mRecyclerView.clearOnScrollListeners();
         }
     }
 
