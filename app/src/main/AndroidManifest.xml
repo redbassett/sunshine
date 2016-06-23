@@ -132,7 +132,8 @@
                 android:resource="@xml/widget_info_today"/>
         </receiver>
         <service android:name=".widget.TodayWidgetIntentService" />
-        
+
+        <!-- Detail Widget -->
         <receiver android:name=".widget.DetailWidgetProvider"
             android:label="@string/title_widget_detail"
             android:enabled="@bool/widget_detail_enabled">
