@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sunshine</string>
+    <string name="message">Watch face tapped</string>
+    <string name="my_digital_name">Sunshine Digital</string>
+    <string name="time_format">HH:mm</string>
+    <string name="date_format">E, MMM d yyyy</string>
+</resources>

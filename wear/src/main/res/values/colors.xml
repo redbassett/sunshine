@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TODO: 12/24/16 Figure out a way to use the colour resources from the app module instead -->
+    <color name="background">#03A9F4</color>
+    <color name="digital_text_primary">#ffffff</color>
+    <color name="digital_text_secondary">#d6d6d6</color>
+</resources>
